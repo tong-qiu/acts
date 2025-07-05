@@ -170,6 +170,11 @@ class RootMaterialTrackWriter
   std::vector<float> m_step_A;
   /// step material Z
   std::vector<float> m_step_Z;
+  /// step material A
+  std::vector<std::vector<float>> m_step_A_components;
+  /// step material Z
+  std::vector<std::vector<float>> m_step_Z_components;
+  std::vector<std::vector<float>> m_step_fraction_components;
   /// step material rho
   std::vector<float> m_step_rho;
 

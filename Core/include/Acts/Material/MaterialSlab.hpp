@@ -76,6 +76,10 @@ class MaterialSlab {
   constexpr float thicknessInX0() const { return m_thicknessInX0; }
   /// Return the nuclear interaction length fraction.
   constexpr float thicknessInL0() const { return m_thicknessInL0; }
+  std::vector<float> m_Zvector;
+  std::vector<float> m_Arvector;
+  std::vector<float> m_fractionvector;
+
 
  private:
   Material m_material;

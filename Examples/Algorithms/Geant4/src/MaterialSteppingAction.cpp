@@ -79,9 +79,19 @@ void MaterialSteppingAction::UserSteppingAction(const G4Step* step) {
   }
 
   // Construct passed material slab for the step
-  const auto slab =
+  auto slab =
       Acts::MaterialSlab(Acts::Material::fromMassDensity(X0, L0, Ar, Z, rho),
                          convertLength * step->GetStepLength());
+  slab.m_Zvector.clear();
+  slab.m_Arvector.clear();
+  slab.m_fractionvector.clear();
+  for (std::size_t i = 0; i < nElements; i++) {
+    slab.m_Zvector.push_back(elements->at(i)->GetZ());
+    slab.m_Arvector.push_back(
+        elements->at(i)->GetA() / (CLHEP::gram / CLHEP::mole));
+    slab.m_fractionvector.push_back(fraction[i]);
+  }
+
 
   // Create the RecordedMaterialSlab
   const auto& rawPos = step->GetPreStepPoint()->GetPosition();

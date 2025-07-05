@@ -83,6 +83,9 @@ RootMaterialTrackWriter::RootMaterialTrackWriter(
   m_outputTree->Branch("mat_L0", &m_step_L0);
   m_outputTree->Branch("mat_A", &m_step_A);
   m_outputTree->Branch("mat_Z", &m_step_Z);
+  m_outputTree->Branch("mat_A_components", &m_step_A_components);
+  m_outputTree->Branch("mat_Z_components", &m_step_Z_components);
+  m_outputTree->Branch("mat_fraction_components", &m_step_fraction_components);
   m_outputTree->Branch("mat_rho", &m_step_rho);
 
   if (m_cfg.prePostStep) {
@@ -156,6 +159,9 @@ ProcessCode RootMaterialTrackWriter::writeT(
     m_step_L0.clear();
     m_step_A.clear();
     m_step_Z.clear();
+    m_step_A_components.clear();
+    m_step_Z_components.clear();
+    m_step_fraction_components.clear();
     m_step_rho.clear();
 
     m_sur_id.clear();
@@ -226,6 +232,9 @@ ProcessCode RootMaterialTrackWriter::writeT(
     m_step_L0.reserve(mints);
     m_step_A.reserve(mints);
     m_step_Z.reserve(mints);
+    m_step_A_components.reserve(mints);
+    m_step_Z_components.reserve(mints);
+    m_step_fraction_components.reserve(mints);
     m_step_rho.reserve(mints);
 
     m_sur_id.reserve(mints);
@@ -365,6 +374,12 @@ ProcessCode RootMaterialTrackWriter::writeT(
       m_step_L0.push_back(mprops.material().L0());
       m_step_A.push_back(mprops.material().Ar());
       m_step_Z.push_back(mprops.material().Z());
+    
+      m_step_A_components.push_back(mprops.m_Arvector);
+      m_step_Z_components.push_back(mprops.m_Zvector);
+      m_step_fraction_components.push_back(mprops.m_fractionvector);
+
+
       m_step_rho.push_back(mprops.material().massDensity());
       // re-calculate if defined to do so
       if (m_cfg.recalculateTotals) {
