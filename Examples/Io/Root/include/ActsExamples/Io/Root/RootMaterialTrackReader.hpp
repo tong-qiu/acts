@@ -148,6 +148,12 @@ class RootMaterialTrackReader : public IReader {
   std::vector<float>* m_step_Z = new std::vector<float>;
   /// step material rho
   std::vector<float>* m_step_rho = new std::vector<float>;
+  /// step material A
+  std::vector<std::vector<float>> *m_step_A_components = new std::vector<std::vector<float>>;
+  /// step material Z
+  std::vector<std::vector<float>> *m_step_Z_components = new std::vector<std::vector<float>>;
+  std::vector<std::vector<float>> *m_step_fraction_components = new std::vector<std::vector<float>>;
+
 
   /// ID of the surface associated with the step
   std::vector<std::uint64_t>* m_sur_id = new std::vector<std::uint64_t>;

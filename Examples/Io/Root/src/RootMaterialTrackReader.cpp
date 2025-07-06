@@ -70,6 +70,9 @@ RootMaterialTrackReader::RootMaterialTrackReader(const Config& config,
   m_inputChain->SetBranchAddress("mat_A", &m_step_A);
   m_inputChain->SetBranchAddress("mat_Z", &m_step_Z);
   m_inputChain->SetBranchAddress("mat_rho", &m_step_rho);
+  m_inputChain->SetBranchAddress("mat_A_components", &m_step_A_components);
+  m_inputChain->SetBranchAddress("mat_Z_components", &m_step_Z_components);
+  m_inputChain->SetBranchAddress("mat_fraction_components", &m_step_fraction_components);
   if (m_cfg.readCachedSurfaceInformation) {
     m_inputChain->SetBranchAddress("sur_id", &m_sur_id);
     m_inputChain->SetBranchAddress("sur_x", &m_sur_x);
@@ -112,6 +115,10 @@ RootMaterialTrackReader::~RootMaterialTrackReader() {
   delete m_step_A;
   delete m_step_Z;
   delete m_step_rho;
+  delete m_step_A_components;
+  delete m_step_Z_components;
+  delete m_step_fraction_components;
+
 
   delete m_sur_id;
   delete m_sur_x;
@@ -200,6 +207,11 @@ ProcessCode RootMaterialTrackReader::read(const AlgorithmContext& context) {
                                 << ", " << (*m_step_Z)[is] << ", "
                                 << (*m_step_rho)[is]);
       ACTS_VERBOSE("====================");
+
+    mInteraction.materialSlab.m_Zvector = (*m_step_Z_components)[is];
+    mInteraction.materialSlab.m_Arvector = (*m_step_A_components)[is];
+    mInteraction.materialSlab.m_fractionvector = (*m_step_fraction_components)[is];
+
 
       if (m_cfg.readCachedSurfaceInformation) {
         // add the surface information to the interaction this allows the
