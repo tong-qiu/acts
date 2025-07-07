@@ -39,6 +39,7 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+#include <format>
 
 namespace {
 
@@ -310,6 +311,11 @@ void Acts::to_json(nlohmann::json& j, const MaterialSlab& t) {
   nlohmann::json jmat(t.material());
   j["material"] = jmat;
   j["thickness"] = t.thickness();
+  std::string ZAF = "";
+  for (long unsigned int i = 0; i < t.m_Zvector.size(); ++i) {
+    ZAF += std::format("Z{}A{}F{:.3f};", t.m_Zvector[i], t.m_Arvector[i], t.m_fractionvector[i]);
+  }
+  j["ZAF"] = ZAF;
 }
 
 void Acts::from_json(const nlohmann::json& j, MaterialSlab& t) {
