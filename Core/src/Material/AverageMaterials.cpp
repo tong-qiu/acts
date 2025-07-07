@@ -169,22 +169,22 @@ Acts::MaterialSlab Acts::detail::combineSlabs(const MaterialSlab& slab1,
     if (isotopeMap2.find(id) != isotopeMap2.end()) {
       // isotope is present in both materials
       const auto& isotope2 = isotopeMap2[id];
-      m_Zvector.push_back(isotope1[0] * molarWeight1 + isotope2[0] * molarWeight2);
-      m_Arvector.push_back(isotope1[1] * molarWeight1 + isotope2[1] * molarWeight2);
+      m_Zvector.push_back(isotope1[0]);
+      m_Arvector.push_back(isotope1[1]);
       m_fractionvector.push_back(isotope1[2] * molarWeight1 +
                                  isotope2[2] * molarWeight2);
     } else {
       // isotope is only present in material 1
-      m_Zvector.push_back(isotope1[0] * molarWeight1);
-      m_Arvector.push_back(isotope1[1] * molarWeight1);
+      m_Zvector.push_back(isotope1[0]);
+      m_Arvector.push_back(isotope1[1]);
       m_fractionvector.push_back(isotope1[2] * molarWeight1);
     }
   }
   for (const auto& [id, isotope2] : isotopeMap2) {
     if (isotopeMap1.find(id) == isotopeMap1.end()) {
       // isotope is only present in material 2
-      m_Zvector.push_back(isotope2[0] * molarWeight2);
-      m_Arvector.push_back(isotope2[1] * molarWeight2);
+      m_Zvector.push_back(isotope2[0]);
+      m_Arvector.push_back(isotope2[1]);
       m_fractionvector.push_back(isotope2[2] * molarWeight2);
     }
   }
