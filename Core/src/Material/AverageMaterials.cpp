@@ -12,6 +12,9 @@
 
 #include <cmath>
 
+#include <map>
+#include <vector>
+
 Acts::MaterialSlab Acts::detail::combineSlabs(const MaterialSlab& slab1,
                                               const MaterialSlab& slab2) {
   const auto& mat1 = slab1.material();
@@ -145,8 +148,56 @@ Acts::MaterialSlab Acts::detail::combineSlabs(const MaterialSlab& slab1,
                            thicknessWeight2 * mat2.meanExcitationEnergy());
   }
 
-  return {
+  std::map<int, std::vector<float>> isotopeMap1;
+  std::map<int, std::vector<float>> isotopeMap2;
+  for (long unsigned int i = 0; i < slab1.m_Zvector.size(); ++i) {
+    int id = slab1.m_Zvector[i] * 1000 + slab1.m_Arvector[i];
+    std::vector<float> isotope = {slab1.m_Zvector[i], slab1.m_Arvector[i],
+                                      slab1.m_fractionvector[i]};
+    isotopeMap1[id] = isotope;
+  }
+  for (long unsigned int i = 0; i < slab2.m_Zvector.size(); ++i) {
+    int id = slab2.m_Zvector[i] * 1000 + slab2.m_Arvector[i];
+    std::vector<float> isotope = {slab2.m_Zvector[i], slab2.m_Arvector[i],
+                                      slab2.m_fractionvector[i]};
+    isotopeMap2[id] = isotope;
+  }
+  std::vector<float> m_Zvector;
+  std::vector<float> m_Arvector;
+  std::vector<float> m_fractionvector;
+  for (const auto& [id, isotope1] : isotopeMap1) {
+    if (isotopeMap2.find(id) != isotopeMap2.end()) {
+      // isotope is present in both materials
+      const auto& isotope2 = isotopeMap2[id];
+      m_Zvector.push_back(isotope1[0] * molarWeight1 + isotope2[0] * molarWeight2);
+      m_Arvector.push_back(isotope1[1] * molarWeight1 + isotope2[1] * molarWeight2);
+      m_fractionvector.push_back(isotope1[2] * molarWeight1 +
+                                 isotope2[2] * molarWeight2);
+    } else {
+      // isotope is only present in material 1
+      m_Zvector.push_back(isotope1[0] * molarWeight1);
+      m_Arvector.push_back(isotope1[1] * molarWeight1);
+      m_fractionvector.push_back(isotope1[2] * molarWeight1);
+    }
+  }
+  for (const auto& [id, isotope2] : isotopeMap2) {
+    if (isotopeMap1.find(id) == isotopeMap1.end()) {
+      // isotope is only present in material 2
+      m_Zvector.push_back(isotope2[0] * molarWeight2);
+      m_Arvector.push_back(isotope2[1] * molarWeight2);
+      m_fractionvector.push_back(isotope2[2] * molarWeight2);
+    }
+  }
+
+
+  Acts::MaterialSlab output = Acts::MaterialSlab(
       Material::fromMolarDensity(x0, l0, ar, z, molarDensity,
                                  molarElectronDensity, meanExcitationEnergy),
-      static_cast<float>(thickness)};
+      static_cast<float>(thickness));
+
+  output.m_Zvector = m_Zvector;
+  output.m_Arvector = m_Arvector;
+  output.m_fractionvector = m_fractionvector;
+
+  return output;
 }
