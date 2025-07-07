@@ -85,6 +85,23 @@ void MaterialSteppingAction::UserSteppingAction(const G4Step* step) {
   slab.m_Zvector.clear();
   slab.m_Arvector.clear();
   slab.m_fractionvector.clear();
+
+  // for (std::size_t i = 0; i < nElements; i++) {
+  //   G4IsotopeVector* isotopes = elements->at(i)->GetIsotopeVector();
+  //   auto RelativeAbundancevector =
+  //       elements->at(i)->GetRelativeAbundanceVector();
+  //   if (isotopes != nullptr) {
+  //     // If the element has isotopes, we need to add them to the slab
+  //     for (std::size_t j = 0; j < isotopes->size(); j++) {
+  //       G4Isotope* isotope = isotopes->at(j);
+  //       slab.m_Zvector.push_back(isotope->GetZ());
+  //       slab.m_Arvector.push_back(
+  //           isotope->GetA() / (CLHEP::gram / CLHEP::mole));
+  //       slab.m_fractionvector.push_back(
+  //           fraction[i] * RelativeAbundancevector[j]);
+  //     }
+  //   }
+
   for (std::size_t i = 0; i < nElements; i++) {
     slab.m_Zvector.push_back(elements->at(i)->GetZ());
     slab.m_Arvector.push_back(
