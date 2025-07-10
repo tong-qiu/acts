@@ -48,8 +48,14 @@ void Acts::AccumulatedMaterialSlab::trackAverage(bool useEmptyTrack) {
       // average such that each track contributes equally.
       MaterialSlab fromTotal(m_totalAverage.material(),
                              weightTotal * m_totalAverage.thickness());
+      fromTotal.m_Zvector = m_totalAverage.m_Zvector;
+      fromTotal.m_Arvector = m_totalAverage.m_Arvector;
+      fromTotal.m_fractionvector = m_totalAverage.m_fractionvector;
       MaterialSlab fromTrack(m_trackAverage.material(),
                              weightTrack * m_trackAverage.thickness());
+      fromTrack.m_Zvector = m_trackAverage.m_Zvector;
+      fromTrack.m_Arvector = m_trackAverage.m_Arvector;
+      fromTrack.m_fractionvector = m_trackAverage.m_fractionvector;
       m_totalAverage = detail::combineSlabs(fromTotal, fromTrack);
     }
     m_totalCount += 1;
