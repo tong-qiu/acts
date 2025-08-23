@@ -44,7 +44,7 @@ def runMaterialMapping(
 
     wb = WhiteBoard(acts.logging.INFO)
 
-    context = AlgorithmContext(0, 0, wb)
+    context = AlgorithmContext(0, 0, wb, 0)
 
     for decorator in decorators:
         assert decorator.decorate(context) == ProcessCode.SUCCESS
@@ -124,19 +124,20 @@ if "__main__" == __name__:
         description="Script to run material mapping on ITk geometry"
     )
     p.add_argument(
-        "geo_dir",
+        "--geo_dir",
+        default="/home/tqiu/ACTS/ACTS2/acts-itk",
         help="Input directory containing the ITk standalone geometry. Get in touch if you don't have this.",
     )
     p.add_argument(
         "--inputFile",
         type=str,
-        default="",
+        default="/home/tqiu/ACTS/ACTS2/run/geant4_material_tracks.root",
         help="Input file containing material steps.",
     )
     p.add_argument(
         "--material",
         type=str,
-        default="",
+        default="/home/tqiu/ACTS/ACTS2/run/geometry-map.json",
         help="Geometry file to define layers used in material mapping",
     )
 
