@@ -84,6 +84,7 @@ def runMaterialRecording(
         randomNumbers=rnd,
         inputParticles=hepmc3Converter.config.outputParticles,
         outputMaterialTracks="material-tracks",
+        excludeMaterials=["Air", "Vacuum", "SiliconMat"],
     )
 
     s.addAlgorithm(g4Alg)
@@ -124,8 +125,9 @@ def main():
     #     gmdConfig = acts.geomodel.GeoModelDetector.Config(path=args.input)
     #     detector = acts.geomodel.GeoModelDetector(gmdConfig)
     import pathlib, acts, acts.examples, acts.examples.itk
-    geo_dir = pathlib.Path("/home/tqiu/ACTS/ACTS2/acts-itk")
-    detector = acts.examples.itk.buildITkGeometry(geo_dir)
+    # geo_dir = pathlib.Path("/home/tqiu/ACTS/ACTS2/acts-itk")
+    # detector = acts.examples.itk.buildITkGeometry(geo_dir)
+    detector = acts.examples.geant4.GdmlDetector(path="/mnt/c/Users/qiutt/Desktop/nosync/ACTS/acts-itk/itk-hgtd/ITk.gdml")
     # trackingGeometry = detector.trackingGeometry()
     # decorators = detector.contextDecorators()
 
