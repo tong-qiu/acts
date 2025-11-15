@@ -85,6 +85,9 @@ void MaterialSteppingAction::UserSteppingAction(const G4Step* step) {
   slab.m_Zvector.clear();
   slab.m_Arvector.clear();
   slab.m_fractionvector.clear();
+  const G4double* nAtom =  material->GetVecNbOfAtomsPerVolume();
+  G4double nTotalAtoms = material->GetTotNbOfAtomsPerVolume();
+
 
   // for (std::size_t i = 0; i < nElements; i++) {
   //   G4IsotopeVector* isotopes = elements->at(i)->GetIsotopeVector();
@@ -98,7 +101,7 @@ void MaterialSteppingAction::UserSteppingAction(const G4Step* step) {
   //       slab.m_Arvector.push_back(
   //           isotope->GetA() / (CLHEP::gram / CLHEP::mole));
   //       slab.m_fractionvector.push_back(
-  //           fraction[i] * RelativeAbundancevector[j]);
+  //           nAtom[i] * RelativeAbundancevector[j]);
   //     }
   //   }
 
@@ -106,7 +109,7 @@ void MaterialSteppingAction::UserSteppingAction(const G4Step* step) {
     slab.m_Zvector.push_back(elements->at(i)->GetZ());
     slab.m_Arvector.push_back(
         elements->at(i)->GetA() / (CLHEP::gram / CLHEP::mole));
-    slab.m_fractionvector.push_back(fraction[i]);
+    slab.m_fractionvector.push_back(nAtom[i]/nTotalAtoms);
   }
 
 
