@@ -84,7 +84,7 @@ def runMaterialRecording(
         randomNumbers=rnd,
         inputParticles=hepmc3Converter.config.outputParticles,
         outputMaterialTracks="material-tracks",
-        excludeMaterials=["Air", "Vacuum", "SiliconMat"],
+        excludeMaterials=["Air", "Vacuum", "SiliconMat", "SiMetal", "Silicon_Ma"],
     )
 
     s.addAlgorithm(g4Alg)
